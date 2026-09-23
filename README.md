@@ -22,8 +22,8 @@ If you add a new plain app later, put it in `home/programs/`, not `modules/progr
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/shizukutakahashi55-del/nixos-config.git ~/nixos-config
-cd ~/nixos-config
+git clone https://github.com/shizukutakahashi55-del/nix-home.git ~/nix-home
+cd ~/nix-home
 ```
 
 ### 2. Generate your `hardware-configuration.nix`
@@ -54,7 +54,7 @@ git add .
 ### 4. Apply the configuration
 
 ```bash
-cd ~/nixos-config
+cd ~/nix-home
 sudo nixos-rebuild switch --flake .#nixos
 ```
 
@@ -82,7 +82,7 @@ Applies the configuration only until the next reboot, so you can catch errors be
 ## 📂 Repository structure
 
 ```text
-nixos-config/
+nix-home/
 ├── flake.nix                   # Flake entry point and external inputs
 ├── flake.lock                  # Locked versions of the inputs
 ├── configuration.nix           # Main module: imports everything else
