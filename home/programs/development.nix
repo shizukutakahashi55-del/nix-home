@@ -13,7 +13,6 @@
     git
     gh
     jdk21
-    jdk17
     lazygit
     python3
     python3Packages.pip
