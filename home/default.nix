@@ -31,7 +31,6 @@
   home.stateVersion = "26.05";
 
   # Deja instalado `home-manager` como comando dentro del propio perfil
-  # de usuario (podés correr `home-manager switch` sin pasar por
-  # `nixos-rebuild` para iterar más rápido en esto).
+  # de usuario 
   programs.home-manager.enable = true;
 }

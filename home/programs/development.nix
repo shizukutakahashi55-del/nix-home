@@ -16,7 +16,7 @@
     lazygit
     python3
     python3Packages.pip
-    vscodium
+   ## vscodium
     nixd 
     nixfmt-rfc-style
     nix-direnv 
