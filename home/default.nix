@@ -14,6 +14,8 @@
     ./programs/media.nix
     ./programs/system.nix
     ./programs/terminal.nix
+    ./programs/gtk.nix
+    ./programs/japanese.nix
   ];
 
   # ─────────────────────────────────────────────

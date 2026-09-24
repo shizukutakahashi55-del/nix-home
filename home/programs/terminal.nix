@@ -21,6 +21,7 @@
     starship
     neovim
     zsh
+    zip
     yazi         #Cli-FileBrowser
   ];
 }
