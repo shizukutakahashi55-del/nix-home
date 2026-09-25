@@ -19,13 +19,24 @@
   ];
 
   # ─────────────────────────────────────────────
+  # Directorios de Tachidesk
+  # ─────────────────────────────────────────────
+
+  systemd.user.tmpfiles.rules = [
+    "d %h/.local/share/Tachidesk 0755 - - -"
+    "d %h/.local/share/Tachidesk/extensions 0755 - - -"
+    "d %h/.local/share/Tachidesk/backups 0755 - - -"
+    "d %h/Manga 0755 - - -"
+    "d %h/Manga/Downloads 0755 - - -"
+  ];
+
+  # ─────────────────────────────────────────────
   # Suwayomi Server
   # ─────────────────────────────────────────────
 
   environment.systemPackages = with pkgs; [
     suwayomi-server
 
-    # Tachidesk command
     (writeShellScriptBin "tachidesk" ''
       case "$1" in
         start)
@@ -41,11 +52,19 @@
           ;;
 
         status)
-          systemctl --user status tachidesk.service
+          systemctl --user status tachidesk.service --no-pager
+          ;;
+
+        enable)
+          systemctl --user enable tachidesk.service
+          ;;
+
+        disable)
+          systemctl --user disable tachidesk.service
           ;;
 
         *)
-          echo "Usage: tachidesk {start|stop|restart|status}"
+          echo "Usage: tachidesk {start|stop|restart|status|enable|disable}"
           exit 1
           ;;
       esac
@@ -67,10 +86,28 @@
       "network-online.target"
     ];
 
+    # Sin "wantedBy": el servicio no arranca solo al iniciar sesión.
+    # Se controla manualmente con el comando "tachidesk".
+
     serviceConfig = {
       ExecStart = "${pkgs.suwayomi-server}/bin/tachidesk-server";
+
+      WorkingDirectory = "%h/.local/share/Tachidesk";
+
+      # HOME explícito: sin esto, la JVM no resuelve bien "user.home"
+      # dentro de la unidad de usuario y el servidor cae en /tmp/Tachidesk
+      # en vez de usar ~/.local/share/Tachidesk.
+      Environment = [
+        "HOME=%h"
+      ];
+
       Restart = "on-failure";
       RestartSec = 5;
+
+      # Apagado limpio: le da tiempo a la JVM a cerrar bien
+      # antes de que systemd mate el proceso.
+      TimeoutStopSec = 15;
+      KillSignal = "SIGTERM";
     };
   };
 }

@@ -4,6 +4,9 @@
   # ─────────────────────────────────────────────
   # PipeWire
   # ─────────────────────────────────────────────
+    environment.systemPackages = with pkgs; [
+      pw-viz
+  ];
 
   security.rtkit.enable = true;
 

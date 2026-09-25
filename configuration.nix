@@ -49,7 +49,7 @@
   # Home Manager
   # ─────────────────────────────────────────────
   # El resto de los "programas" (navegadores, comunicación, desarrollo,
-  # gaming, multimedia, utilidades de CLI, terminal) ahora se instalan acá,
+  # gaming, multimedia, utilidades de CLI, terminal) se instalan acá,
   # a nivel de usuario, en vez de con environment.systemPackages. Ver
   # ./home/default.nix.
 
