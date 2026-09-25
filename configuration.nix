@@ -13,12 +13,15 @@
     # ───────────────────────────────────────────
 
     ./modules/boot.nix
+    ./modules/maintenance.nix
     ./modules/networking.nix
     ./modules/desktop.nix
     ./modules/audio.nix
-    ./modules/nvidia.nix
+    ./modules/nvidia.nix     #This one.
     ./modules/users.nix
     ./modules/hyprland.nix
+    ###./modules/amdgpu.nix  #Uncomment if you use AMD 
+    # and comment or delete the nvidia one.
 
     # ───────────────────────────────────────────
     # Programas que se quedan a nivel sistema

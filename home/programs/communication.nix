@@ -7,7 +7,9 @@
   # ─────────────────────────────────────────────
 
   home.packages = with pkgs; [
-  # discord
+    
+    
+    discord
     telegram-desktop
     spotify
     vesktop

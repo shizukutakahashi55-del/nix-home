@@ -4,7 +4,7 @@ Modular, declarative **NixOS** configuration, managed with **Nix Flakes**, **Git
 
 > This repository covers **system-level** configuration (packages, drivers, services, hardware) plus, now, a **Home Manager** layer for plain user-level applications. User-level Hyprland/Waybar/Rofi/theme *dotfiles* still live separately in [dotfiles-nix](https://github.com/shizukutakahashi55-del/dotfiles-nix) — Home Manager here is only used for `home.packages`, not for those configs.
 
-## 🏠 System vs. Home Manager
+## System vs. Home Manager
 
 Not everything moved to Home Manager. The rule this repo follows:
 
@@ -15,7 +15,7 @@ If you add a new plain app later, put it in `home/programs/`, not `modules/progr
 
 ---
 
-## 🚀 Installation
+## Installation
 
 > **Requirement:** you need `git`. If you don't have it: `nix-shell -p git` (temporary), or add it permanently to your NixOS configuration.
 
@@ -62,14 +62,14 @@ sudo nixos-rebuild switch --flake .#nixos
 
 ---
 
-## 🔄 Updating the system
+## Updating the system
 
 ```bash
 nix flake update                          # updates the flake inputs
 sudo nixos-rebuild switch --flake .#nixos # applies the new configuration
 ```
 
-## 🧪 Testing changes without making them permanent
+## Testing changes without making them permanent
 
 ```bash
 sudo nixos-rebuild test --flake .#nixos
@@ -79,7 +79,7 @@ Applies the configuration only until the next reboot, so you can catch errors be
 
 ---
 
-## 📂 Repository structure
+## Repository structure
 
 ```text
 nix-home/
@@ -98,26 +98,33 @@ nix-home/
     │                              # these can overlap with dotfiles-nix's Hyprland env config.
     ├── users.nix                  # System user and personal packages
     │
-    ├── programs/
-    │   ├── browsers.nix          # Firefox, Brave, Chromium, LibreWolf
-    │   ├── communication.nix     # Discord, Telegram, Spotify
-    │   ├── development.nix       # See "Development packages" below
-    │   ├── gaming.nix             # Gamemode, Lutris, MangoHud, PrismLauncher, ProtonPlus, Wine
+    ├── programs/                  # Stays system-level (see "System vs. Home Manager" above)
     │   ├── kde.nix                 # Kvantum + improved KWin blur (external flake)
     │   ├── obs.nix                  # OBS Studio with CUDA support (NVIDIA)
-    │   ├── spicetify.nix            # Spotify with Catppuccin Mocha theme via spicetify-nix
     │   ├── steam.nix                # Steam (Millennium client), Remote Play, dedicated server
-    │   ├── suwayomi.nix             # Suwayomi manga server, pinned to v2.3.2243
-    │   ├── system.nix               # CLI utilities (jq)
-    │   └── terminal.nix             # Alacritty, Kitty, Zsh, Starship, Fastfetch, eza, fd, fzf, ripgrep, vim
+    │   └── suwayomi.nix             # Suwayomi manga server, pinned to v2.3.2243
     │
     └── services/
         └── flatpak.nix            # Flatpak + Flathub repo added automatically
+
+home/
+├── default.nix                 # Identity, home.stateVersion, imports of programs/*
+└── programs/                   # Plain apps, no system integration
+    ├── browsers.nix              # Brave, LibreWolf, Vivaldi
+    ├── communication.nix         # Discord, Telegram, Spotify, Vesktop, Sonora
+    ├── development.nix           # See "Development packages" below
+    ├── gaming.nix                 # Gamemode, Lutris, MangoHud, PrismLauncher, ProtonPlus, Wine
+    ├── gtk.nix                    # Cursor theme, GTK theme, dark mode
+    ├── media.nix                  # mpv, VLC, Nomacs
+    ├── system.nix                 # Dolphin + thumbnailers, jq, playerctl
+    └── terminal.nix               # Ghostty, WezTerm, Foot, Kitty, Zsh, Starship, Fastfetch, eza, fzf, ripgrep, Neovim, Yazi
 ```
 
 ### Hyprland (`modules/hyprland.nix`)
 
-Installs Hyprland (with UWSM and XWayland) and the whole ecosystem consumed by the [dotfiles](https://github.com/shizukutakahashi55-del/dotfiles-nix): Waybar, SwayNC, Rofi, Wlogout, QuickShell, Hyprpaper, Waypaper, Matugen, Hyprlock, Hypridle, Cava, screenshot tools (grim/slurp), Wayland clipboard, and more. If you're going to use the dotfiles, this is the module that provides the packages they configure.
+Installs Hyprland (with UWSM and XWayland) plus the packages the [dotfiles](https://github.com/shizukutakahashi55-del/dotfiles-nix) need but don't provide themselves: QuickShell (with the QML wrapper), Hyprpaper, Wlogout, Awww + Waypaper + Matugen (wallpapers/theming), Hyprlock, Hypridle, Cava, screenshot tools (grim/slurp), Wayland clipboard, and more.
+
+> **Waybar, Rofi, SwayNC and SwayOSD are intentionally *not* here.** Those are configured directly by `dotfiles-nix`, which is still being iterated on/debugged; installing them a second time from this repo would give you two independent sources for the same package (and two places to keep in sync) while that config is in flux. If `dotfiles-nix` stabilizes and stops managing its own packages, move them back into this module.
 
 ### NVIDIA environment variables (`modules/nvidia.nix`)
 
@@ -140,19 +147,20 @@ environment.sessionVariables = {
 >
 > This isn't necessarily a bug — it's a defensive redundancy that's common in Hyprland+NVIDIA setups precisely because propagation of `environment.sessionVariables` to the compositor isn't guaranteed across every startup path. But it **is** a maintenance risk: if you change a value on one side and forget the other, you'll get inconsistent behavior that's hard to diagnose (e.g. VA-API working for apps launched from a terminal but not from the Hyprland launcher, or vice versa). If you keep both, make sure the **values match exactly** on both sides — or pick one as the single source of truth and comment out the other.
 
-### Development packages (`modules/programs/development.nix`)
+### Development packages (`home/programs/development.nix`)
 
 ```text
-curl · direnv · git · gh · lazygit · python3 + pip
-vscodium · nixd · nixfmt-rfc-style · nix-direnv
-nix-search-cli · ruff · tree · uv · wget and more
+appimage-run · curl · direnv (+ nix-direnv) · git · gh · jdk21
+lazygit · python3 + pip · vscodium-fhs · nixd · nixfmt-rfc-style
+nix-search-cli · ruff · tree · uv · wget · vim
+gcc · gnumake · cmake · pkg-config (C++ build tools)
 ```
 
 > `nix-search-cli` is precisely the optional dependency used by the package-search keybind in the dotfiles (`nix-rofi`) — it's already included here. 
 
 ---
 
-## 📌 Features
+##  Features
 
 * ❄️ Declarative NixOS, managed with **Nix Flakes**
 * 🧩 Modular configuration (one file per responsibility)
@@ -162,7 +170,7 @@ nix-search-cli · ruff · tree · uv · wget and more
 * 🔊 **PipeWire** (ALSA + 32-bit support for gaming)
 * 🎮 Gaming: Steam (Millennium), Lutris, Wine, PrismLauncher, MangoHud
 * 🎥 OBS Studio with CUDA acceleration
-* 🎵 Spotify + Spicetify (Catppuccin Mocha theme)
+* 🎵 Spotify, Vesktop and Sonora (native Spotify client for Linux)
 * 📖 Suwayomi manga server (port 4567)
 * 📦 Flatpak / Flathub
 * 🌐 Network, Bluetooth, timezone (`America/Phoenix` by default) and keyboard, all configurable

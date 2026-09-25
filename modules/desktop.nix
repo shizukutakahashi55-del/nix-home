@@ -1,41 +1,29 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 {
-  # ─────────────────────────────────────────────
-  # X11
-  # ─────────────────────────────────────────────
 
-  services.xserver.enable = true;
+  # Enable AppImage Support
+  programs.appimage.enable = true;
+  programs.appimage.binfmt = true;
+
 
   # ─────────────────────────────────────────────
-  # Display Manager
+  # Display Manager: greetd + tuigreet
   # ─────────────────────────────────────────────
-
-  services.displayManager.sddm = {
-      enable = true;
-      # 1. Usamos la ruta directa del paquete para que NixOS enlace el tema
-      theme = "${pkgs.sddm-astronaut}";
-
-      extraPackages = with pkgs; [
-        sddm-astronaut
-        kdePackages.qtmultimedia
-        kdePackages.qtsvg
-        kdePackages.qtsensors
-      ];
+  services.greetd = {
+    enable = true;
+    settings = {
+      default_session = {
+        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --remember --remember-user-session --cmd Hyprland";
+        user = "greeter";
+      };
     };
+  };
 
-  environment.systemPackages = with pkgs; [
-    sddm-astronaut
-  ];
   # ─────────────────────────────────────────────
-  # Printing
+  # Printing & Fonts
   # ─────────────────────────────────────────────
-
   services.printing.enable = true;
-
-  # ─────────────────────────────────────────────
-  # Fonts
-  # ─────────────────────────────────────────────
 
   fonts.packages = with pkgs; [
     jetbrains-mono

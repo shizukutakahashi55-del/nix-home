@@ -10,6 +10,6 @@
    
     jq
     playerctl
-    swayosd
+    
   ];
 }

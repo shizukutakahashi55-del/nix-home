@@ -1,25 +1,30 @@
 { config, pkgs, ... }:
 
 {
+  # direnv + nix-direnv, con el hook correcto en la shell. Antes se
+  # instalaban los paquetes sueltos vía home.packages, lo cual NO conecta
+  # nix-direnv con direnv ni carga el hook: `direnv` quedaba instalado pero
+  # inutilizable.
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+  };
+
   # ─────────────────────────────────────────────
   # Development
   # ─────────────────────────────────────────────
 
   home.packages = with pkgs; [
-
-    appimage-run
     curl
-    direnv
     git
     gh
     jdk21
     lazygit
     python3
     python3Packages.pip
-   ## vscodium
+    vscodium-fhs
     nixd 
     nixfmt-rfc-style
-    nix-direnv 
     nix-search-cli
     ruff
     tree
@@ -35,4 +40,5 @@
     cmake
     pkg-config 
   ];
+
 }
