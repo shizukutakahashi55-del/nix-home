@@ -86,7 +86,6 @@
       "network-online.target"
     ];
 
-    # Sin "wantedBy": el servicio no arranca solo al iniciar sesión.
     # Se controla manualmente con el comando "tachidesk".
 
     serviceConfig = {

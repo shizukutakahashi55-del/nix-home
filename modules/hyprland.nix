@@ -60,7 +60,7 @@
     #   HYPRLAND ECOSYSTEM
     # ==========================================================================
     
-    hyprpolkitagent
+    ##hyprpolkitagent
     hyprpaper
     hyprshot
     hyprsunset
@@ -97,6 +97,7 @@
     ffmpeg
     mpvpaper
     socat
+    qpwgraph
 
     # ==========================================================================
     # SCREENSHOTS / CLIPBOARD

@@ -6,7 +6,8 @@
   programs.appimage.enable = true;
   programs.appimage.binfmt = true;
 
-
+  # Mount disks
+  services.udisks2.enable = true;
   # ─────────────────────────────────────────────
   # Display Manager: greetd + tuigreet
   # ─────────────────────────────────────────────
