@@ -12,7 +12,7 @@
       settings = {
         General = {
           Enable = "Source,Sink,Media,Socket";
-          Experimental = true; # Ayuda con adaptadores caprichosos o BLE
+          Experimental = true; # Ayuda con adaptadores caprichosos
         };
       };
     };

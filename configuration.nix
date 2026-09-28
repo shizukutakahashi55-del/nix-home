@@ -43,6 +43,7 @@
     # ───────────────────────────────────────────
 
     ./modules/services/flatpak.nix
+    ./modules/services/systemservices.nix
 
   ];
 
