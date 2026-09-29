@@ -2,6 +2,8 @@
 
 {
   imports = [
+    
+
     # ───────────────────────────────────────────
     # Programas (antes en modules/programs/*, ahora
     # a nivel usuario en vez de systemPackages)

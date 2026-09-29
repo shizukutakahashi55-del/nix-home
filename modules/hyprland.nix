@@ -61,6 +61,7 @@
     # ==========================================================================
     
     ##hyprpolkitagent
+    hyprpicker
     hyprpaper
     hyprshot
     hyprsunset

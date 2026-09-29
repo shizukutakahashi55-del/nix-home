@@ -19,16 +19,6 @@
 
 
     # ==========================================================================
-    # KDE BETTER BLUR
-    # ==========================================================================
-
-    # kwin-effects-better-blur-dx = {
-    #   url = "github:xarblu/kwin-effects-better-blur-dx";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
-
-
-    # ==========================================================================
     # PRISM LAUNCHER
     # ==========================================================================
 
@@ -61,7 +51,9 @@
       url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
   };
+
 
 
   outputs = { self, nixpkgs, ... }@inputs: {

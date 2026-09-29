@@ -14,7 +14,8 @@
     wine
     protontricks
     goverlay
-    
+    retroarch-full
+
   ];
 }
        
