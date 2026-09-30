@@ -16,6 +16,7 @@
     wezterm
     foot
     btop
+    bottom
     eza          #Reemplazo moderno e interactivo de ls con iconos y árbol de archivos.
     fastfetch
     fd

@@ -28,6 +28,7 @@
     LIBVA_DRIVER_NAME = "nvidia";          # Forces the VA-API video acceleration backend to NVIDIA.
     __GLX_VENDOR_LIBRARY_NAME = "nvidia"; # Ensures that OpenGL uses the NVIDIA implementation.
     NVD_BACKEND = "direct";               # Optimizes direct rendering for NVIDIA drivers.
+    NIXOS_OZONE_WL = "1";  
   };
 
   # ─────────────────────────────────────────────

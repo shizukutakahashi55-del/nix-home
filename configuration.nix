@@ -20,7 +20,10 @@
     ./modules/nvidia.nix     #This one.
     ./modules/users.nix
     ./modules/hyprland.nix
+    ./modules/qemu.nix
+    ./modules/quickshell.nix
     ./modules/polkit.nix
+    
     ###./modules/amdgpu.nix  #Uncomment if you use AMD 
     # and comment or delete the nvidia one.
 

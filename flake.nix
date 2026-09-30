@@ -52,6 +52,15 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # ==========================================================================
+    # QUICKSHELL
+    # ==========================================================================
+
+    quickshell = {
+      url = "git+https://git.outfoxxed.me/outfoxxed/quickshell";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
   };
 
 
