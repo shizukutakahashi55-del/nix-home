@@ -1,44 +1,47 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 {
-  # direnv + nix-direnv, con el hook correcto en la shell. Antes se
-  # instalaban los paquetes sueltos vía home.packages, lo cual NO conecta
-  # nix-direnv con direnv ni carga el hook: `direnv` quedaba instalado pero
-  # inutilizable.
   programs.direnv = {
     enable = true;
     nix-direnv.enable = true;
   };
 
-  # ─────────────────────────────────────────────
-  # Development
-  # ─────────────────────────────────────────────
-
   home.packages = with pkgs; [
-    curl
+    # Git / Nix
     git
     gh
-    jdk21
-    lazygit
-    python3
-    python3Packages.pip
-    vscodium-fhs
-    nixd 
+    nixd
     nixfmt-rfc-style
     nix-search-cli
-    ruff
-    tree
-    qt6.qtquick3d
-    qt6.qtdeclarative
-    uv 
-    wget
-    vim
+    lazygit
 
-    # C++ Build Tools
+    # Languages / runtimes
+    jdk21
+    python3
+    python3Packages.pip
+    ruff
+    uv
+
+    # Rust
+    rustc
+    rustfmt
+    cargo
+
+    # C / C++
     gcc
     gnumake
     cmake
-    pkg-config 
-  ];
+    pkg-config
 
+    # Qt / QML
+    qt6.qtquick3d
+    qt6.qtdeclarative
+
+    # Editors / utilities
+    vscodium-fhs
+    vim
+    curl
+    wget
+    tree
+  ];
 }

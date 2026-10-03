@@ -2,9 +2,8 @@
 
 {
   home.packages = with pkgs; [
-    brave
-    librewolf
-    vivaldi
-    pywalfox-native
+    awww
+    waypaper
+    mpvpaper
   ];
 }

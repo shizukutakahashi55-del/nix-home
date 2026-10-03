@@ -1,32 +1,35 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 {
-  # ─────────────────────────────────────────────
-  # Terminal
-  # ─────────────────────────────────────────────
-    programs.fzf = {
+  programs.fzf = {
     enable = true;
     enableZshIntegration = true;
   };
 
   home.packages = with pkgs; [
-    
-    #alacritty
+    # Terminal emulators
+    alacritty
     ghostty
     wezterm
     foot
+    kitty
+
+    # Shell / prompt
+    zsh
+    starship
+
+    # CLI tools
     btop
     bottom
-    eza          #Reemplazo moderno e interactivo de ls con iconos y árbol de archivos.
+    eza
     fastfetch
     fd
-    kitty
-    ripgrep      #Reemplazo ultrarrápido de grep respetando archivos .gitignore.
-    starship
+    ripgrep
+    yazi
     neovim
+
+    # Archives
     unzip
-    zsh
     zip
-    yazi         #Cli-FileBrowser
   ];
 }

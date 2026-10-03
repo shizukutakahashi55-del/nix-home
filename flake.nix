@@ -14,8 +14,8 @@
     # MILLENNIUM
     # ==========================================================================
 
-    millennium.url =
-      "github:SteamClientHomebrew/Millennium?dir=packages/nix";
+    # millennium.url =
+    #   "github:SteamClientHomebrew/Millennium?dir=packages/nix";
 
 
     # ==========================================================================
@@ -61,6 +61,15 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+
+    # ==========================================================================
+    # MANGOWM
+    # ==========================================================================
+    mangowm = {
+      url = "github:mangowm/mango";
+      inputs.nixpkgs.follows = "nixpkgs";
+
+    };
   };
 
 
@@ -78,9 +87,9 @@
         {
           nixpkgs.hostPlatform = "x86_64-linux";
 
-          nixpkgs.overlays = [
-            inputs.millennium.overlays.default
-          ];
+          # nixpkgs.overlays = [
+          #   inputs.millennium.overlays.default
+          # ];
         }
 
         inputs.home-manager.nixosModules.home-manager

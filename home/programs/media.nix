@@ -1,46 +1,14 @@
-{ config, pkgs, inputs, ... }:
+{ pkgs, ... }:
 
 {
-
-  
-  # ─────────────────────────────────────────────
-  # Media
-  # ─────────────────────────────────────────────
-
   home.packages = with pkgs; [
-    
-    
-    mpv      # Media player general use
-    vlc      # Video Player VLC
-    nomacs   # Image Vierwer
-    
-    # ==========================================================================
-    # WALLPAPERS / THEMING
-    # ==========================================================================
-
-    awww
-    waypaper
-    matugen
-    qt6Packages.qt6ct
-
-    # ==========================================================================
-    # AUDIO / MULTIMEDIA
-    # ==========================================================================
-
-    pavucontrol
-    cava
+    # Video
+    mpv
+    vlc
     ffmpeg
-    mpvpaper
-    socat
-    qpwgraph
 
-    # ==========================================================================
-    # SCREENSHOTS / CLIPBOARD
-    # ==========================================================================
-
-    grim
-    slurp
-    wl-clipboard
+    # Images
+    nomacs
+    imagemagick
   ];
-
 }

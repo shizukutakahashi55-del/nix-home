@@ -1,10 +1,6 @@
 { pkgs, ... }:
 
 {
-  # ─────────────────────────────────────────────
-  # Gaming Packages & Utilities
-  # ─────────────────────────────────────────────
-
   home.packages = with pkgs; [
     gamemode
     lutris
@@ -15,7 +11,5 @@
     protontricks
     goverlay
     retroarch-full
-
   ];
 }
-       

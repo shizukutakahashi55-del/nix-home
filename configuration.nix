@@ -19,7 +19,9 @@
     ./modules/audio.nix
     ./modules/nvidia.nix     #This one.
     ./modules/users.nix
-    ./modules/hyprland.nix
+    ./modules/hyprland.nix  
+    ./modules/niri.nix
+    ./modules/mango.nix
     ./modules/qemu.nix
     ./modules/quickshell.nix
     ./modules/polkit.nix
