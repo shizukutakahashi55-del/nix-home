@@ -103,5 +103,4 @@ Review the modules before applying this on a machine you care about.
 
 * **NVIDIA variables:** `modules/nvidia.nix` sets `LIBVA_DRIVER_NAME`, `__GLX_VENDOR_LIBRARY_NAME` and `NVD_BACKEND` system-wide. If your Hyprland config also sets them with `env = …`, keep the values identical in both places, or you'll get inconsistent behaviour that is hard to trace.
 * **Polkit:** users in `wheel` can reboot, power off, suspend, hibernate and change power profiles without a password. Edit `modules/polkit.nix` if you don't want that.
-* **Waybar / Rofi / SwayNC:** commented out in `modules/hyprland.nix`. Uncomment them if you don't use QuickShell.
 * **Hyprland tracks upstream:** `nix flake update` can bring in breaking changes. `flake.lock` keeps the working version, so commit it after a good update.
