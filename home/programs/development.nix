@@ -22,9 +22,11 @@
     ruff
     uv
 
+
     # Rust
     rustc
     rustfmt
+    
     cargo
 
     # C / C++
@@ -34,8 +36,11 @@
     pkg-config
 
     # Qt / QML
+    qt6.qttools
+    qt6.qtbase
+    qt6.qmake
     qt6.qtquick3d
-    qt6.qtdeclarative
+    qt6.qtdeclarative #Added this here cuz an external proyect with rust + qml
 
     # Editors / utilities
     vscodium-fhs
@@ -43,5 +48,10 @@
     curl
     wget
     tree
+
+
+    wayland-protocols
+    wayland.dev
+    waylandpp
   ];
 }

@@ -17,5 +17,9 @@
 
     xwayland-satellite
 
+    # Icons
+    tela-icon-theme
+    kdePackages.breeze-icons
+
   ];
 }

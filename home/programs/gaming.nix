@@ -2,14 +2,20 @@
 
 {
   home.packages = with pkgs; [
-    gamemode
-    lutris
-    mangohud
-    prismlauncher
-    protonplus
-    wine
-    protontricks
-    goverlay
-    retroarch-full
+  # Game performance and monitoring
+  gamemode
+  mangohud
+  goverlay
+
+  # Game launchers
+  heroic-unwrapped
+  lutris
+  prismlauncher-unwrapped
+  retroarch-full
+
+  # Wine and Proton compatibility
+  wine
+  protonplus
+  protontricks
   ];
 }

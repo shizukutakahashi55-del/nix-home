@@ -2,7 +2,7 @@
 
 {
   home.packages = with pkgs; [
-    # App store / desktop software
+    # App store 
     bazaar
    
     # Bars / launchers / session controls
@@ -10,12 +10,13 @@
     rofi
     wlogout
 
+    # Office Utilities
+    libreoffice
+
     # Desktop utilities
     wlsunset
     libnotify
     networkmanagerapplet
 
-    # Uncomment if Quickshell is not used.
-    # swaync
   ];
 }

@@ -8,9 +8,9 @@
 
   home.packages = with pkgs; [
     # Terminal emulators
-    alacritty
-    ghostty
-    wezterm
+    # alacritty
+    # ghostty
+    # wezterm
     foot
     kitty
 
@@ -27,6 +27,7 @@
     ripgrep
     yazi
     neovim
+    # tmux
 
     # Archives
     unzip

@@ -4,6 +4,8 @@
   # ─────────────────────────────────────────────
   # Linux Packages
   # ─────────────────────────────────────────────
+   environment.systemPackages = [ inputs.amane.packages.x86_64-linux.default ];
+
 
   # Enable AppImage Support
   programs.appimage = {
@@ -46,6 +48,10 @@
   fonts.packages = with pkgs; [
     nerd-fonts.jetbrains-mono      # íconos (obligatoria)
     nerd-fonts.symbols-only        # respaldo de glifos
+    nunito
+    nunito-sans
+    mplus-outline-fonts.osdnRelease
+    mplus-outline-fonts.githubRelease
     migu                           # opcional, japonés
     (google-fonts.override {
       fonts = [ "Silkscreen" "DotGothic16" "VT323" ];

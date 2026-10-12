@@ -14,8 +14,8 @@
     # MILLENNIUM
     # ==========================================================================
 
-    # millennium.url =
-    #   "github:SteamClientHomebrew/Millennium?dir=packages/nix";
+    millennium.url =
+      "github:SteamClientHomebrew/Millennium?dir=packages/nix";
 
 
     # ==========================================================================
@@ -42,6 +42,7 @@
     hyprland.url =
       "github:hyprwm/Hyprland";
 
+    amane.url = "github:MystiaFin/amane";
 
     # ==========================================================================
     # HOME MANAGER
@@ -87,9 +88,9 @@
         {
           nixpkgs.hostPlatform = "x86_64-linux";
 
-          # nixpkgs.overlays = [
-          #   inputs.millennium.overlays.default
-          # ];
+          nixpkgs.overlays = [
+            inputs.millennium.overlays.default
+          ];
         }
 
         inputs.home-manager.nixosModules.home-manager

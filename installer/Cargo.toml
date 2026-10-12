@@ -1,0 +1,11 @@
+[package]
+name = "nix-home-installer"
+version = "0.1.0"
+edition = "2021"
+description = "A small visual manager for a modular NixOS + Home Manager configuration"
+license = "MIT"
+
+[[bin]]
+name = "nix-home-installer"
+path = "src/main.rs"
+

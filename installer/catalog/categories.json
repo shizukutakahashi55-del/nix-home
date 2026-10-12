@@ -1,0 +1,12 @@
+[
+  { "id": "browsers", "label": "Navegadores", "file": "home/programs/browsers.nix", "keywords": ["browser", "firefox", "chromium", "brave", "web browser"] },
+  { "id": "communication", "label": "Comunicación", "file": "home/programs/communication.nix", "keywords": ["discord", "telegram", "signal", "element", "matrix", "chat", "messenger"] },
+  { "id": "development", "label": "Desarrollo", "file": "home/programs/development.nix", "keywords": ["compiler", "debugger", "ide", "programming", "git", "rust", "python", "vscode", "language server"] },
+  { "id": "gaming", "label": "Gaming", "file": "home/programs/gaming.nix", "keywords": ["game", "steam", "lutris", "wine", "proton", "mangohud", "retroarch", "emulator"] },
+  { "id": "media", "label": "Multimedia", "file": "home/programs/media.nix", "keywords": ["video", "obs", "vlc", "mpv", "image viewer", "photo", "ffmpeg"] },
+  { "id": "audio", "label": "Audio", "file": "home/programs/audio.nix", "keywords": ["audio", "music", "pipewire", "spotify", "sound"] },
+  { "id": "desktop", "label": "Escritorio", "file": "home/programs/desktop.nix", "keywords": ["wayland", "launcher", "notification", "hyprland", "niri", "plasma", "panel"] },
+  { "id": "terminal", "label": "Terminal / CLI", "file": "home/programs/terminal.nix", "keywords": ["terminal", "shell", "cli", "prompt", "zsh", "tmux"] },
+  { "id": "files", "label": "Archivos", "file": "home/programs/files.nix", "keywords": ["file manager", "archive", "compression", "pdf", "backup"] },
+  { "id": "system", "label": "Utilidades", "file": "home/programs/system.nix", "keywords": ["monitor", "disk", "system", "usb", "hardware", "network", "benchmark"] }
+]

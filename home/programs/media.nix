@@ -10,5 +10,6 @@
     # Images
     nomacs
     imagemagick
+    parabolic
   ];
 }

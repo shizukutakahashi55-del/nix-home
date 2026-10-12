@@ -2,9 +2,13 @@
 
 {
   home.packages = with pkgs; [
-    brave
+    # Browsers
+    brave 
     librewolf
     vivaldi
+    firefox
+
+    # Browsers Theming
     pywalfox-native
   ];
 }
