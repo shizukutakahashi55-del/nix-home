@@ -19,9 +19,9 @@
     ./modules/glaunchers.nix
     ./modules/hyprland.nix
     ./modules/maintenance.nix
-    # ./modules/mango.nix
+    #./modules/mango.nix
     ./modules/networking.nix
-    # ./modules/niri.nix
+    #./modules/niri.nix
     ./modules/nvidia.nix # This one.
     ./modules/polkit.nix
     ./modules/qemu.nix

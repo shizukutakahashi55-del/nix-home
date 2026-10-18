@@ -15,12 +15,6 @@
     wl-clipboard
     wl-clip-persist
 
-    xwayland-satellite
-
-    # Icons
-    tela-icon-theme
-    kdePackages.breeze-icons
-
     #Installer
 
   ];

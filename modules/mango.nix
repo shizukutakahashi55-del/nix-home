@@ -15,26 +15,26 @@
   # XDG Desktop Portal
   # ─────────────────────────────────────────────
 
-#   xdg.portal = {
-#     enable = true;
+  xdg.portal = {
+    enable = true;
 
-#     extraPortals = [
-#       pkgs.xdg-desktop-portal-wlr
-#       pkgs.xdg-desktop-portal-gtk
-#     ];
+    extraPortals = [
+      pkgs.xdg-desktop-portal-wlr
+      pkgs.xdg-desktop-portal-gtk
+    ];
 
-#     config = {
-#       mango = {
-#         default = "gtk";
+    config = {
+      mango = {
+        default = "gtk";
 
-#         "org.freedesktop.impl.portal.ScreenCast" = "wlr";
-#         "org.freedesktop.impl.portal.Screenshot" = "wlr";
-#       };
-#     };
-#   };
-#   xdg.portal.wlr.settings.screencast = {
-#   chooser_type = "none";
-#   output_name = "HDMI-A-1";   # tu monitor: mmsg get all-monitors
-# };
+        "org.freedesktop.impl.portal.ScreenCast" = "wlr";
+        "org.freedesktop.impl.portal.Screenshot" = "wlr";
+      };
+    };
+  };
+  xdg.portal.wlr.settings.screencast = {
+  chooser_type = "none";
+  output_name = "HDMI-A-1";   # tu monitor: mmsg get all-monitors
+};
 
 }

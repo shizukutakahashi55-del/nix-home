@@ -7,7 +7,7 @@
   
   programs.hyprland = {
     enable = true;
-    withUWSM = true;
+    #withUWSM = true;
     xwayland.enable = true;
 
     package =
@@ -18,12 +18,12 @@
         .xdg-desktop-portal-hyprland;
   };
 
-  # XDG desktop portal for Hyprland
-  systemd.user.services."xdg-desktop-portal-hyprland" = {
-    environment = {
-      QT_STYLE_OVERRIDE = "Fusion";
-    };
-  };
+  # # XDG desktop portal for Hyprland
+  # systemd.user.services."xdg-desktop-portal-hyprland" = {
+  #   environment = {
+  #     QT_STYLE_OVERRIDE = "Fusion";
+  #   };
+  # };
 
   # ============================================================================
   # SYSTEM PACKAGES

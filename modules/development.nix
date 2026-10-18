@@ -8,6 +8,17 @@
     nix-direnv.enable = true;
   };
 
+  # Docker Virtualization
+    virtualisation.docker = {
+      enable = true;
+      rootless = {
+        enable = true;
+        setSocketVariable = true;
+      };
+    };
+    users.users.oozenix.extraGroups = [ "docker" ];
+
+  # NixPackages
    environment.systemPackages = with pkgs; [
     # Git / Nix
     git
@@ -54,10 +65,10 @@
     wget
     tree
 
-    # Wayland 
-    # wayland-protocols
-    # wayland.dev
-    # waylandpp
+     ##Wayland
+    #  wayland-protocols
+    #  wayland.dev
+    #  waylandpp
 
     #Installer
   ];

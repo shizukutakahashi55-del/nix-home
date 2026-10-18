@@ -55,10 +55,10 @@
     # MANGOWM
     # ==========================================================================
 
-    # mangowm = {
-    #   url = "github:mangowm/mango";
-    #   inputs.nixpkgs.follows = "nixpkgs-unstable";
-    # };
+    #  mangowm = {
+    #    url = "github:mangowm/mango";
+    #    inputs.nixpkgs.follows = "nixpkgs-unstable";
+    #  };
   };
 
   outputs = { self, nixpkgs, nixpkgs-unstable, ... }@inputs: {
@@ -70,12 +70,12 @@
       };
 
       modules = [
-        {
-          nixpkgs.hostPlatform = "x86_64-linux";
-          nixpkgs.overlays = [
-            inputs.millennium.overlays.default
-          ];
-        }
+        #{
+        #  nixpkgs.hostPlatform = "x86_64-linux";
+        #  nixpkgs.overlays = [
+        #    inputs.millennium.overlays.default
+        #  ];
+        #}
         inputs.home-manager.nixosModules.home-manager
         ./configuration.nix
       ];
