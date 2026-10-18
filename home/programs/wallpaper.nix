@@ -3,7 +3,7 @@
 {
   home.packages = with pkgs; [
     awww
-    waypaper
+    #waypaper
     mpvpaper
 
     #Installer

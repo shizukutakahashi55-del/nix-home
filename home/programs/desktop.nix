@@ -6,9 +6,9 @@
     bazaar
    
     # Bars / launchers / session controls
-    waybar
-    rofi
-    wlogout
+    #waybar
+    #rofi
+    #wlogout
 
     # Office Utilities
     libreoffice

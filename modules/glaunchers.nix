@@ -4,7 +4,7 @@
     environment.systemPackages = with pkgs; [
     # Wine Compatibility
     wineWow64Packages.stable
-    winetricks
+    #winetricks
 
     # PrismLauncher
     (prismlauncher.override {

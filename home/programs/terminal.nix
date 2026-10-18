@@ -20,7 +20,7 @@
 
     # CLI tools
     btop
-    bottom
+    #bottom
     eza
     fastfetch
     fd

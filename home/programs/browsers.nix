@@ -4,11 +4,11 @@
   home.packages = with pkgs; [
     # Browsers
     brave 
-    librewolf
-    vivaldi
+    #librewolf
+    #vivaldi
 
     # Browsers Theming
-    pywalfox-native
+    #pywalfox-native
 
     #Installer
   ];

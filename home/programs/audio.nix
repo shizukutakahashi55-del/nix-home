@@ -13,8 +13,7 @@
     socat
     
     # Music
-    spotify
-    
+
   ] ++ [
     inputs.sonora.packages.${pkgs.stdenv.hostPlatform.system}.default
   

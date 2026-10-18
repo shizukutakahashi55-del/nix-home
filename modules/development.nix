@@ -54,9 +54,9 @@
     tree
 
     # Wayland 
-    wayland-protocols
-    wayland.dev
-    waylandpp
+    # wayland-protocols
+    # wayland.dev
+    # waylandpp
 
     #Installer
   ];
