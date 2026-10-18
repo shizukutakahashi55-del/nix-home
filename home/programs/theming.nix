@@ -33,7 +33,7 @@
     qt6Packages.qt6ct
     matugen
     nwg-look
-    
+
      # Icons
     tela-icon-theme
     kdePackages.breeze-icons
@@ -43,6 +43,8 @@
     # Qt styles
     kdePackages.breeze
     adwaita-qt6
+    qt6Packages.qtstyleplugin-kvantum
+
     #Installer
   ];
 }
