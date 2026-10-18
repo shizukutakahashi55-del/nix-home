@@ -12,8 +12,8 @@
     # ==========================================================================
     # MILLENNIUM
     # ==========================================================================
-    millennium.url =
-      "github:SteamClientHomebrew/Millennium?dir=packages/nix";
+    # millennium.url =
+    #   "github:SteamClientHomebrew/Millennium?dir=packages/nix";
 
     # ==========================================================================
     # PRISM LAUNCHER
@@ -55,10 +55,10 @@
     # MANGOWM
     # ==========================================================================
 
-    mangowm = {
-      url = "github:mangowm/mango";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
+    # mangowm = {
+    #   url = "github:mangowm/mango";
+    #   inputs.nixpkgs.follows = "nixpkgs-unstable";
+    # };
   };
 
   outputs = { self, nixpkgs, nixpkgs-unstable, ... }@inputs: {

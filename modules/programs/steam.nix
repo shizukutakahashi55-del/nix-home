@@ -8,8 +8,8 @@
   programs.steam = {
     enable = true;
 
-  #   # Steam Millennium
-    package = pkgs.millennium-steam;
+    # Steam Millennium
+    # package = pkgs.millennium-steam;
 
   #   # Utils
     remotePlay.openFirewall = true;

@@ -3,6 +3,8 @@
 {
   programs.direnv = {
     enable = true;
+    #loadInNixShell = true;
+    #direnvrcExtra = "";
     nix-direnv.enable = true;
   };
 
@@ -13,7 +15,6 @@
     nixd
     nixfmt-rfc-style
     nix-search-cli
-    lazygit
 
     # Runtimes
     ruff

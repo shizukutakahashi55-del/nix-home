@@ -27,7 +27,7 @@
     ripgrep
     yazi
     neovim
-    # tmux
+    #tmux
 
     # Archives
     unzip

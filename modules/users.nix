@@ -14,6 +14,5 @@
       "networkmanager"
       "wheel"
     ];
-
   };
 }

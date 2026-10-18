@@ -19,16 +19,18 @@
     ./modules/glaunchers.nix
     ./modules/hyprland.nix
     ./modules/maintenance.nix
-    #./modules/mango.nix
+    # ./modules/mango.nix
     ./modules/networking.nix
-    #./modules/niri.nix
+    # ./modules/niri.nix
     ./modules/nvidia.nix # This one.
     ./modules/polkit.nix
     ./modules/qemu.nix
     ./modules/quickshell.nix
     ./modules/users.nix
     
-    #./modules/amdgpu.nix  #Uncomment if you use AMD 
+    #./modules/amdgpu.nix  
+    
+    #Uncomment if you use AMD 
     # and comment or delete the nvidia one.
 
     # ───────────────────────────────────────────
