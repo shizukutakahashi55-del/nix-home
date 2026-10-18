@@ -12,6 +12,7 @@ Singleton {
     property int radiusStyle: 1             // 0 rectas · 1 suaves · 2 redondas
     property real fontScale: 1.0
     property real winOpacity: 1.0
+    property int winRadius: 0
     property bool compactSidebar: false
     property bool autoCompact: false          // lo activa la ventana cuando es estrecha
     property bool animations: true
@@ -134,7 +135,7 @@ Singleton {
     function snapshot() {
         return {
             theme: themeId, accent: accentCustom, radius: radiusStyle, fontScale: fontScale,
-            opacity: winOpacity, compactSidebar: compactSidebar, animations: animations, monoFont: monoFont
+            opacity: winOpacity, windowRadius: winRadius, compactSidebar: compactSidebar, animations: animations, monoFont: monoFont
         }
     }
 
@@ -144,6 +145,7 @@ Singleton {
         if (typeof o.radius === "number") radiusStyle = Math.max(0, Math.min(2, Math.round(o.radius)))
         if (typeof o.fontScale === "number") fontScale = Math.max(0.8, Math.min(1.4, o.fontScale))
         if (typeof o.opacity === "number") winOpacity = Math.max(0.5, Math.min(1, o.opacity))
+        if (typeof o.windowRadius === "number") winRadius = Math.max(0, Math.min(32, Math.round(o.windowRadius)))
         if (typeof o.compactSidebar === "boolean") compactSidebar = o.compactSidebar
         if (typeof o.animations === "boolean") animations = o.animations
         if (typeof o.monoFont === "string") monoFont = o.monoFont
@@ -155,6 +157,7 @@ Singleton {
         radiusStyle = 1
         fontScale = 1.0
         winOpacity = 1.0
+        winRadius = 0
         compactSidebar = false
         animations = true
         monoFont = "monospace"
@@ -167,6 +170,7 @@ Singleton {
     onRadiusStyleChanged: scheduleSave()
     onFontScaleChanged: scheduleSave()
     onWinOpacityChanged: scheduleSave()
+    onWinRadiusChanged: scheduleSave()
     onCompactSidebarChanged: scheduleSave()
     onAnimationsChanged: scheduleSave()
     onMonoFontChanged: scheduleSave()

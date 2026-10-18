@@ -225,6 +225,17 @@ Item {
                     Text { Layout.preferredWidth: 42; horizontalAlignment: Text.AlignRight; text: Math.round(Pal.winOpacity * 100) + " %"; color: Pal.textDim; font.pixelSize: Pal.fs(12) }
                 }
                 SettingRow {
+                    label: "Radio de la ventana"
+                    hint: "0 deja que el compositor redondee la ventana. Si ves esquinas fantasma, usa el mismo valor que decoration:rounding (Hyprland) o geometry-corner-radius (niri)."
+                    Range {
+                        Layout.preferredWidth: 220
+                        from: 0; to: 32; step: 1
+                        value: Pal.winRadius
+                        onMoved: v => Pal.winRadius = Math.round(v)
+                    }
+                    Text { Layout.preferredWidth: 42; horizontalAlignment: Text.AlignRight; text: Pal.winRadius === 0 ? "auto" : Pal.winRadius + " px"; color: Pal.textDim; font.pixelSize: Pal.fs(12) }
+                }
+                SettingRow {
                     label: "Barra lateral compacta"
                     hint: "Solo iconos. También se alterna con el botón « de la barra."
                     Toggle { checked: Pal.compactSidebar; onToggled: v => Pal.compactSidebar = v }

@@ -32,5 +32,7 @@
     # Archives
     unzip
     zip
+
+    #Installer
   ];
 }

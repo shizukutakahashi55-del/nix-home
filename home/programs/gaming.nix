@@ -8,14 +8,13 @@
   goverlay
 
   # Game launchers
-  heroic-unwrapped
+  heroic
   lutris
-  prismlauncher-unwrapped
-  retroarch-full
 
-  # Wine and Proton compatibility
-  wine
+  # Proton compatibility
   protonplus
   protontricks
+  
+  #Installer
   ];
 }

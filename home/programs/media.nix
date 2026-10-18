@@ -6,10 +6,13 @@
     mpv
     vlc
     ffmpeg
+    parabolic
+    
 
     # Images
     nomacs
     imagemagick
-    parabolic
+    
+    #Installer
   ];
 }

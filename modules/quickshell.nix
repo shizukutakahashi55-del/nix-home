@@ -7,11 +7,13 @@
 
   environment.systemPackages = with pkgs; [
 
+    (python3.withPackages (ps: with ps; [ evdev ]))
+
     # --------------------------------------------------------------------------
     # QUICKSHELL
     # --------------------------------------------------------------------------
 
-    # Quickshell wrapper with QML modules
+    # Quickshell wrapper con QML modules
     (symlinkJoin {
       name = "quickshell-wrapped";
       paths = [ quickshell ];

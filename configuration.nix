@@ -12,21 +12,23 @@
     # Sistema
     # ───────────────────────────────────────────
 
-    ./modules/boot.nix
-    ./modules/maintenance.nix
-    ./modules/networking.nix
-    ./modules/desktop.nix
     ./modules/audio.nix
-    ./modules/nvidia.nix     #This one.
-    ./modules/users.nix
-    ./modules/hyprland.nix  
-    ./modules/niri.nix
+    ./modules/boot.nix
+    ./modules/desktop.nix
+    ./modules/development.nix
+    ./modules/glaunchers.nix
+    ./modules/hyprland.nix
+    ./modules/maintenance.nix
     ./modules/mango.nix
+    ./modules/networking.nix
+    ./modules/niri.nix
+    ./modules/nvidia.nix # This one.
+    ./modules/polkit.nix
     ./modules/qemu.nix
     ./modules/quickshell.nix
-    ./modules/polkit.nix
+    ./modules/users.nix
     
-    ###./modules/amdgpu.nix  #Uncomment if you use AMD 
+    #./modules/amdgpu.nix  #Uncomment if you use AMD 
     # and comment or delete the nvidia one.
 
     # ───────────────────────────────────────────
@@ -38,7 +40,6 @@
     # a nivel sistema, o wrappers setuid)
     # ───────────────────────────────────────────
 
-    ./modules/programs/kde.nix
     ./modules/programs/obs.nix
     ./modules/programs/steam.nix
     ./modules/programs/suwayomi.nix

@@ -2,6 +2,8 @@
 
 {
   home.packages = with pkgs; [
+    
+
     # File manager
     kdePackages.dolphin
 
@@ -11,5 +13,9 @@
     # Dolphin previews / thumbnails
     kdePackages.kdegraphics-thumbnailers
     kdePackages.ffmpegthumbs
+
+    kdePackages.dolphin-plugins
+    
+    #Installer
   ];
 }

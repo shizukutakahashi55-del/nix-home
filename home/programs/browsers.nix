@@ -6,9 +6,10 @@
     brave 
     librewolf
     vivaldi
-    firefox
 
     # Browsers Theming
     pywalfox-native
+
+    #Installer
   ];
 }

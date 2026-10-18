@@ -8,7 +8,6 @@
 
     ./programs/browsers.nix
     ./programs/communication.nix
-    ./programs/development.nix
     ./programs/gaming.nix
     ./programs/terminal.nix
 

@@ -5,5 +5,7 @@
     discord
     telegram-desktop
     vesktop
+
+    #Installer
   ];
 }

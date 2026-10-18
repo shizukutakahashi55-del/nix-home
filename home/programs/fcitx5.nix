@@ -2,7 +2,7 @@
 
 {
   # ─────────────────────────────────────────────
-  # Método de entrada japonés
+  # Método de entrada japonés/IME
   # ─────────────────────────────────────────────
 
   i18n.inputMethod = {

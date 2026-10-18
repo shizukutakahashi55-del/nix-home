@@ -42,6 +42,8 @@ Item {
                 anchors.right: parent.right
                 anchors.top: parent.top
                 height: 38
+                topLeftRadius: Math.max(0, Pal.rLg - 1)
+                topRightRadius: Math.max(0, Pal.rLg - 1)
                 color: Pal.alpha(Pal.text, 0.04)
                 Rectangle { anchors.bottom: parent.bottom; width: parent.width; height: 1; color: Pal.border }
                 Row {

@@ -3,3 +3,4 @@ result-*
 *.swp
 *~
 .DS_Store
+.installer/

@@ -5,5 +5,7 @@
     awww
     waypaper
     mpvpaper
+
+    #Installer
   ];
 }

@@ -21,5 +21,7 @@
     tela-icon-theme
     kdePackages.breeze-icons
 
+    #Installer
+
   ];
 }

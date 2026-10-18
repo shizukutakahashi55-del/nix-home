@@ -17,6 +17,7 @@
     wlsunset
     libnotify
     networkmanagerapplet
-
+    
+    #Installer
   ];
 }

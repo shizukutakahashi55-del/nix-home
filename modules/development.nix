@@ -6,7 +6,7 @@
     nix-direnv.enable = true;
   };
 
-  home.packages = with pkgs; [
+   environment.systemPackages = with pkgs; [
     # Git / Nix
     git
     gh
@@ -15,18 +15,22 @@
     nix-search-cli
     lazygit
 
-    # Languages / runtimes
-    jdk21
-    python3
-    python3Packages.pip
+    # Runtimes
     ruff
     uv
 
+    # Java 
+    openjdk
+    jdk17
+    jdk21
+    jdk25
 
+    # Python
+    python3Packages.pip
+    
     # Rust
     rustc
     rustfmt
-    
     cargo
 
     # C / C++
@@ -40,7 +44,7 @@
     qt6.qtbase
     qt6.qmake
     qt6.qtquick3d
-    qt6.qtdeclarative #Added this here cuz an external proyect with rust + qml
+    qt6.qtdeclarative 
 
     # Editors / utilities
     vscodium-fhs
@@ -49,9 +53,11 @@
     wget
     tree
 
-
+    # Wayland 
     wayland-protocols
     wayland.dev
     waylandpp
+
+    #Installer
   ];
 }

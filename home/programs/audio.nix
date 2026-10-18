@@ -1,6 +1,7 @@
 { pkgs, inputs, ... }:
 
 {
+  # ADD NEW SOFTWARE BY HAND IF POSIBLE IN THIS SECTION
   home.packages = with pkgs; [
     # Audio control / visualization
     pavucontrol
@@ -8,12 +9,17 @@
     cava
     playerctl
 
-    # Music
-    spotify
-
     # Audio / media helpers
     socat
+    
+    # Music
+    spotify
+    
   ] ++ [
     inputs.sonora.packages.${pkgs.stdenv.hostPlatform.system}.default
+  
+  #Installer
+
   ];
+
 }

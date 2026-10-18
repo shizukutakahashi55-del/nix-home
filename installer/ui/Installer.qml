@@ -213,9 +213,8 @@ FloatingWindow {
     Shortcut { sequence: "Ctrl+5"; onActivated: win.tab = 4 }
     Shortcut { sequence: "Ctrl+Q"; onActivated: win.requestClose(false) }
 
-    Rectangle {
+    Item {
         anchors.fill: parent
-        color: Pal.bg
 
         RowLayout {
             anchors.fill: parent
@@ -226,9 +225,11 @@ FloatingWindow {
                 id: side
                 property real sideW: Pal.compact ? 78 : 232
                 Behavior on sideW { NumberAnimation { duration: Pal.anim; easing.type: Easing.OutCubic } }
-                Layout.preferredWidth: side.sideW
+                Layout.preferredWidth: Math.round(side.sideW)
                 Layout.fillHeight: true
                 color: Pal.panel
+                topLeftRadius: Pal.winRadius
+                bottomLeftRadius: Pal.winRadius
                 clip: true
 
                 Rectangle { anchors.right: parent.right; width: 1; height: parent.height; color: Pal.border }
@@ -323,10 +324,13 @@ FloatingWindow {
             }
 
             // ───────────── Contenido ─────────────
-            Item {
+            Rectangle {
                 id: main
                 Layout.fillWidth: true
                 Layout.fillHeight: true
+                color: Pal.bg
+                topRightRadius: Pal.winRadius
+                bottomRightRadius: Pal.winRadius
 
                 ColumnLayout {
                     anchors.fill: parent
@@ -415,6 +419,8 @@ FloatingWindow {
                     anchors.fill: parent
                     z: 100
                     color: Pal.alpha(Qt.rgba(0, 0, 0, 1), 0.62)
+                    topRightRadius: Pal.winRadius
+                    bottomRightRadius: Pal.winRadius
 
                     function open() { visible = true; pw.text = ""; pw.focusInput() }
                     function close() { visible = false }

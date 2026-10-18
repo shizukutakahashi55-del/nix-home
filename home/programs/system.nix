@@ -6,9 +6,11 @@
     gnome-disk-utility
     brightnessctl
     liquidctl
-    nvtopPackages.v3d
+    # nvtopPackages.full
 
     # General system/data utilities
     jq
+
+    #Installer
   ];
 }
