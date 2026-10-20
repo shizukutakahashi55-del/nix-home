@@ -17,6 +17,7 @@
     ./modules/desktop.nix
     ./modules/development.nix
     ./modules/glaunchers.nix
+    ./modules/greetd.nix
     ./modules/hyprland.nix
     ./modules/maintenance.nix
     #./modules/mango.nix
