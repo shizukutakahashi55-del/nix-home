@@ -5,6 +5,7 @@
     # Browsers
     brave 
     librewolf
+    firefox
     #vivaldi
 
     # Browsers Theming
@@ -13,3 +14,4 @@
     #Installer
   ];
 }
+ 

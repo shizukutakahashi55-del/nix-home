@@ -26,10 +26,12 @@
     nixd
     nixfmt-rfc-style
     nix-search-cli
-
+    lazygit
+    
     # Runtimes
     ruff
     uv
+    openssl
 
     # Java 
     openjdk
@@ -39,6 +41,7 @@
 
     # Python
     python3Packages.pip
+    python314Packages.pandas
     
     # Rust
     rustc
