@@ -1,7 +1,8 @@
+{ pkgs, inputs, ... }:
 # ─────────────────────────────────────────────────────────────
 # GPU: AMD Radeon (RX 9060 XT) — driver open-source amdgpu
 # ─────────────────────────────────────────────────────────────
-
+{
 
 hardware.graphics = {
   enable = true;
@@ -23,3 +24,4 @@ environment.systemPackages = with pkgs; [
   clinfo        # para verificar OpenCL si lo necesitás
 ];
 
+}
