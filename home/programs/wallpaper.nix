@@ -2,7 +2,7 @@
 
 {
   home.packages = with pkgs; [
-    awww
+    #awww
     #waypaper
     mpvpaper
 

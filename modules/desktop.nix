@@ -6,12 +6,6 @@
   # ─────────────────────────────────────────────
    # environment.systemPackages = [ inputs.amane.packages.x86_64-linux.default ];
 
-    
-    # Dolphin: application menu outside KDE Plasma
-  environment.etc."xdg/menus/applications.menu".source =
-    "${pkgs.kdePackages.plasma-workspace}/etc/xdg/menus/plasma-applications.menu";
-
-
   # Enable AppImage Support
   programs.appimage = {
     enable = true;

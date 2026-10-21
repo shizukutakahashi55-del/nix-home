@@ -11,6 +11,12 @@
     # General system/data utilities
     jq
 
+    # Screen Recording
+    wf-recorder
+    xdg-utils
+    xdg-user-dirs
+    pulseaudio
+
     #Installer
   ];
 }

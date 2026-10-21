@@ -1,20 +1,17 @@
-{ pkgs, inputs, ... }:
+{ config, pkgs, ... }:
 
 {
-  # ─────────────────────────────────────────────
-  # Display Manager: greetd + tuigreet
-  # ─────────────────────────────────────────────
+  imports = [ ./oozelogin ];
 
-  services.greetd = {
+  services.oozelogin = {
     enable = true;
-
+    compositor = "hyprland";
+    compositorPackage = config.programs.hyprland.package;
+    keyboardLayouts = [ "us" "latam" ];
+    sync.enable = true;
     settings = {
-      default_session = {
-        command =
-          "${pkgs.greetd.tuigreet}/bin/tuigreet --time --remember --remember-user-session";
-        user = "greeter";
-      };
+      showStats = false;
+      showWeather = false;
     };
   };
-
 }

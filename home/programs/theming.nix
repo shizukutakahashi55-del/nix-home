@@ -35,7 +35,8 @@
     nwg-look
 
      # Icons
-    tela-icon-theme
+    #tela-icon-theme
+    papirus-icon-theme
     kdePackages.breeze-icons
 
     kdePackages.qt6ct

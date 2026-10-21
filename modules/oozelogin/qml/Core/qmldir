@@ -1,0 +1,5 @@
+singleton Config 1.0 Config.qml
+singleton Auth 1.0 Auth.qml
+singleton Sys 1.0 Sys.qml
+singleton Strings 1.0 Strings.qml
+singleton Glyph 1.0 Glyph.qml

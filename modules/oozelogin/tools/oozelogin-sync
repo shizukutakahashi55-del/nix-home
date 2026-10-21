@@ -1,0 +1,259 @@
+#!/usr/bin/env python3
+import argparse
+import filecmp
+import glob
+import json
+import os
+import re
+import shutil
+import subprocess
+import sys
+import time
+import urllib.parse
+
+try:
+    import tomllib
+except ImportError:  # Python < 3.11
+    tomllib = None
+
+HEX = re.compile(r"^#[0-9a-fA-F]{6}$")
+IMAGE_EXT = {"jpg", "jpeg", "png", "webp", "bmp", "avif"}
+
+
+def read_json(path):
+    try:
+        with open(path, "r", encoding="utf-8") as fh:
+            data = json.load(fh)
+            return data if isinstance(data, dict) else {}
+    except (OSError, ValueError):
+        return {}
+
+
+def read_toml(path):
+    try:
+        with open(path, "rb") as fh:
+            raw = fh.read()
+    except OSError:
+        return {}
+    if tomllib is not None:
+        try:
+            data = tomllib.loads(raw.decode("utf-8"))
+            return data if isinstance(data, dict) else {}
+        except (ValueError, UnicodeDecodeError):
+            pass
+    # Respaldo simple: lineas  clave = "valor"
+    data = {}
+    for line in raw.decode("utf-8", "replace").splitlines():
+        m = re.match(r'^\s*([A-Za-z0-9_.-]+)\s*=\s*"((?:[^"\\\\]|\\\\.)*)"\s*$', line)
+        if m:
+            data[m.group(1)] = m.group(2).replace('\\\\"', '"').replace("\\\\\\\\", "\\\\")
+    return data
+
+
+def read_profile():
+    """OozeShell guarda profile.toml; profile.json es el formato viejo."""
+    base = os.path.expanduser("~/.config/oozeshell")
+    for name, reader in (("profile.toml", read_toml), ("profile.json", read_json), ("profile.json.bak", read_json)):
+        data = reader(os.path.join(base, name))
+        if data:
+            return data, name
+    return {}, ""
+
+
+def write_json(path, data):
+    tmp = path + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as fh:
+        json.dump(data, fh, indent=2, ensure_ascii=False)
+    os.chmod(tmp, 0o644)
+    os.replace(tmp, path)
+
+
+def copy_file(src, dst):
+    if os.path.exists(dst) and filecmp.cmp(src, dst, shallow=False):
+        return False
+    tmp = dst + ".tmp"
+    shutil.copyfile(src, tmp)
+    os.chmod(tmp, 0o644)
+    os.replace(tmp, dst)
+    return True
+
+
+def ext_of(path):
+    return os.path.splitext(path)[1].lstrip(".").lower()
+
+
+def current_wallpaper():
+    last = os.path.expanduser("~/.cache/awww/last")
+    try:
+        with open(last, "r", encoding="utf-8") as fh:
+            candidate = fh.readline().strip()
+        if candidate and os.path.isfile(candidate):
+            return candidate
+    except OSError:
+        pass
+    try:
+        out = subprocess.run(["awww", "query"], capture_output=True, text=True, timeout=5).stdout
+        match = re.search(r"image:\s*(.+)", out)
+        if match and os.path.isfile(match.group(1).strip()):
+            return match.group(1).strip()
+    except (OSError, subprocess.SubprocessError):
+        pass
+    return ""
+
+
+def current_colors():
+    raw = read_json(os.path.expanduser("~/.cache/oozeshell/colors.json")).get("colors", {})
+
+    def pick(key):
+        value = raw.get(key, {}).get("dark", {}).get("color")
+        return value if isinstance(value, str) and HEX.match(value) else None
+
+    mapping = {
+        "bg": pick("surface") or pick("background"),
+        "surface": pick("surface_container"),
+        "primary": pick("primary"),
+        "onPrimary": pick("on_primary"),
+        "text": pick("on_surface") or pick("on_background"),
+        "subtext": pick("secondary"),
+        "error": pick("error"),
+    }
+    return {k: v.lower() for k, v in mapping.items() if v}
+
+
+def normalize_path(value):
+    if not isinstance(value, str):
+        return ""
+    value = value.strip()
+    if value.startswith("file://"):
+        value = urllib.parse.unquote(value[len("file://"):])
+    return os.path.expandvars(os.path.expanduser(value))
+
+
+def walk_strings(node, key=""):
+    """Recorre el JSON devolviendo (clave, valor) de todos los strings."""
+    if isinstance(node, dict):
+        for k, v in node.items():
+            yield from walk_strings(v, str(k))
+    elif isinstance(node, list):
+        for v in node:
+            yield from walk_strings(v, key)
+    elif isinstance(node, str):
+        yield key, node
+
+
+def avatar_candidates(user):
+    home = os.path.expanduser("~")
+    profile, source = read_profile()
+
+    found = []
+    # 1) claves conocidas, luego cualquier clave que suene a avatar/foto
+    preferred = ["avatarPath", "avatar", "profilePicture", "profileImage", "picture", "image", "photo", "face"]
+    for key in preferred:
+        if key in profile:
+            found.append(("profile:" + key, normalize_path(profile[key])))
+    for key, value in walk_strings(profile):
+        low = key.lower()
+        if any(w in low for w in ("avatar", "picture", "photo", "image", "face", "pfp")):
+            found.append(("profile:" + key, normalize_path(value)))
+    # 2) cualquier string que apunte a una imagen
+    for key, value in walk_strings(profile):
+        if ext_of(value.split("?")[0]) in IMAGE_EXT:
+            found.append(("profile:" + key, normalize_path(value)))
+
+    # 3) ubicaciones habituales
+    found += [("~/.face", os.path.join(home, ".face")),
+              ("~/.face.icon", os.path.join(home, ".face.icon")),
+              ("AccountsService", "/var/lib/AccountsService/icons/" + user)]
+    for pattern in ("~/.config/oozeshell/avatar*", "~/.config/oozeshell/profile.*",
+                    "~/.config/oozeshell/face*", "~/.cache/oozeshell/avatar*",
+                    "~/.local/share/oozeshell/avatar*", "~/.config/oozeshell/*/avatar*"):
+        for match in sorted(glob.glob(os.path.expanduser(pattern))):
+            if ext_of(match) in IMAGE_EXT:
+                found.append((pattern, match))
+    return profile, found
+
+
+def current_avatar(user, debug):
+    profile, candidates = avatar_candidates(user)
+    display = str(profile.get("displayName", "") or profile.get("name", "")).strip()
+    seen = set()
+    for origin, path in candidates:
+        if not path or path in seen:
+            continue
+        seen.add(path)
+        if os.path.isfile(path):
+            debug.append("avatar: %s -> %s" % (origin, path))
+            return path, display
+        debug.append("avatar: %s -> %s (no existe)" % (origin, path))
+    if not profile:
+        debug.append("avatar: no hay ~/.config/oozeshell/profile.toml (ni profile.json)")
+    return "", display
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--dir", default=os.environ.get("OOZELOGIN_DIR", "/var/lib/oozelogin"))
+    parser.add_argument("--quiet", action="store_true")
+    parser.add_argument("--verbose", action="store_true")
+    args = parser.parse_args()
+
+    base = args.dir
+    wall_dir = os.path.join(base, "wallpapers")
+    avatar_dir = os.path.join(base, "avatars")
+    user = os.environ.get("USER") or os.path.basename(os.path.expanduser("~"))
+
+    try:
+        os.makedirs(wall_dir, exist_ok=True)
+        os.makedirs(avatar_dir, exist_ok=True)
+    except OSError as exc:
+        print("oozelogin-sync: no se puede escribir en %s (%s)" % (base, exc), file=sys.stderr)
+        return 1
+
+    sync_file = os.path.join(base, "sync.json")
+    data = read_json(sync_file)
+    log = []
+
+    colors = current_colors()
+    if colors:
+        data["colors"] = colors
+        log.append("colores")
+
+    wall = current_wallpaper()
+    if wall and ext_of(wall) in IMAGE_EXT:
+        name = "oozeshell." + ext_of(wall)
+        for stale in glob.glob(os.path.join(wall_dir, "oozeshell.*")):
+            if os.path.basename(stale) != name:
+                os.remove(stale)
+        copy_file(wall, os.path.join(wall_dir, name))
+        data["wallpaper"] = name
+        log.append("fondo")
+
+    debug = []
+    avatar, display = current_avatar(user, debug)
+    users = data.get("users") if isinstance(data.get("users"), dict) else {}
+    entry = {"displayName": display}
+    if avatar:
+        name = "%s.%s" % (user, ext_of(avatar) or "png")
+        for stale in glob.glob(os.path.join(avatar_dir, user + ".*")):
+            if os.path.basename(stale) != name:
+                os.remove(stale)
+        copy_file(avatar, os.path.join(avatar_dir, name))
+        entry["avatar"] = "avatars/" + name
+        log.append("avatar")
+    else:
+        log.append("avatar NO encontrado")
+    users[user] = entry
+    data["users"] = users
+    data["updated"] = int(time.time())
+
+    write_json(sync_file, data)
+    if not args.quiet:
+        print("oozelogin-sync: " + (", ".join(log) if log else "nada que sincronizar"))
+    if args.verbose or not avatar:
+        for line in debug:
+            print("  " + line, file=sys.stderr if args.quiet else sys.stdout)
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

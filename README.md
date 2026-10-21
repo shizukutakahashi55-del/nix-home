@@ -65,10 +65,47 @@ sudo nixos-generate-config --show-hardware-config > hardware-configuration.nix
 
 Check the generated file before continuing.
 
-### 3. Adapt the configuration
+### 3. Find and change the username
 
-Update the username, home directory, hostname, timezone, locale, GPU,
-and any filesystem-specific settings to match your machine.
+First, find the username you are currently logged in as:
+
+```bash
+whoami
+```
+
+To see your home directory:
+
+```bash
+printf '%s\\n' "$HOME"
+```
+
+You can also list regular user accounts configured on the system:
+
+```bash
+getent passwd | awk -F: '$3 >= 1000 && $3 < 60000 {print $1, $6}'
+```
+
+Before rebuilding, replace the example username `oozenix` with your own
+username wherever it is hard-coded. Check these files first:
+
+- `modules/users.nix`
+- `home/default.nix`
+- Any other module that contains `oozenix` or `/home/oozenix`
+
+Find occurrences from the repository root with:
+
+```bash
+grep -RIn --exclude-dir=.git 'oozenix' .
+```
+
+Edit each relevant occurrence and use your actual username and home
+directory. Do not blindly replace every match: check whether each occurrence
+is a username, a path, or an unrelated string.
+
+### 4. Adapt the rest of the configuration
+
+Update the hostname, timezone, locale, GPU, and any filesystem-specific
+settings to match your machine.
 
 The flake currently defines the host as `nixos`, so the rebuild commands
 below use `.#nixos`. If you rename the host in `flake.nix`, update the
@@ -78,7 +115,7 @@ For an AMD system, review the GPU imports in `configuration.nix` and the
 OBS module before building. Do not enable both GPU configurations
 blindly.
 
-### 4. Add new files to Git
+### 5. Add new files to Git
 
 Flakes use files tracked by Git. Check what will be included before
 staging:
@@ -96,7 +133,7 @@ git add hardware-configuration.nix configuration.nix flake.nix modules home
 If you intentionally want to stage every change, use `git add -A` after
 reviewing `git status`.
 
-### 5. Build and apply
+### 6. Build and apply
 
 First, check whether the configuration can build:
 
@@ -123,34 +160,16 @@ need to run `home-manager switch` separately.
 
 Run these from the repository directory.
 
-  ------------------------------------------------------------------------------------
-  Command                                          Purpose
-  ------------------------------------------------ -----------------------------------
-  `nix flake update`                               Update flake inputs and rewrite
-                                                   `flake.lock`. Review the changes
-                                                   before applying them.
-
-  `sudo nixos-rebuild dry-build --flake .#nixos`   Check whether the configuration
-                                                   builds without activating it.
-
-  `sudo nixos-rebuild build --flake .#nixos`       Build the system configuration
-                                                   without activating it.
-
-  `sudo nixos-rebuild test --flake .#nixos`        Activate the configuration
-                                                   temporarily; it will not become the
-                                                   boot default.
-
-  `sudo nixos-rebuild switch --flake .#nixos`      Build and activate the
-                                                   configuration and make it the
-                                                   current system generation.
-
-  `sudo nixos-rebuild switch --rollback`           Switch to the previous system
-                                                   generation.
-
-  `git status --short`                             Show modified and untracked files.
-
-  `git diff`                                       Review unstaged changes.
-  ------------------------------------------------------------------------------------
+| Command | Purpose |
+|---|---|
+| `nix flake update` | Update flake inputs and rewrite `flake.lock`. Review changes before applying them. |
+| `sudo nixos-rebuild dry-build --flake .#nixos` | Check whether the configuration builds without activating it. |
+| `sudo nixos-rebuild build --flake .#nixos` | Build the system configuration without activating it. |
+| `sudo nixos-rebuild test --flake .#nixos` | Activate the configuration temporarily; it will not become the boot default. |
+| `sudo nixos-rebuild switch --flake .#nixos` | Build and activate the configuration and make it the current system generation. |
+| `sudo nixos-rebuild switch --rollback` | Switch to the previous system generation. |
+| `git status --short` | Show modified and untracked files. |
+| `git diff` | Review unstaged changes. |
 
 If you add or rename files imported by the flake, make sure they are
 tracked by Git before rebuilding. Avoid running `nix flake update`
@@ -201,7 +220,7 @@ location with `CARGO_TARGET_DIR`.
 
 ## Repository layout
 
-``` text
+```text
 .
 ├── flake.nix
 ├── flake.lock
@@ -209,8 +228,30 @@ location with `CARGO_TARGET_DIR`.
 ├── hardware-configuration.nix
 ├── modules/       # System modules, drivers, services, and system-level programs
 ├── home/          # Home Manager configuration and user applications
+├── modules/oozelogin/  # OozeLogin: QuickShell greeter for greetd
 └── installer/     # QuickShell interface and Rust backend
 ```
+
+## OozeLogin (login screen)
+
+`modules/greetd.nix` enables OozeLogin, a QuickShell greeter for greetd with
+its own settings window. It replaces tuigreet.
+
+| Command | Purpose |
+|---|---|
+| `oozelogin-settings` | Settings window (appearance, panels, access, weather, OozeShell) |
+| `oozelogin-preview` | Run the greeter in a window to test it (test password: `ooze`) |
+| `oozelogin-sync` | Copy OozeShell colors, wallpaper and avatar to the greeter |
+
+`sync.enable = true` runs the sync automatically whenever the matugen
+palette, the awww wallpaper or the OozeShell profile change. Your user must
+be in the `users` group to edit the greeter settings. Details in
+`modules/oozelogin/README.md`.
+
+**Tip:** test with `oozelogin-preview` first, and apply with
+`sudo nixos-rebuild boot --flake .#nixos` followed by a reboot. If the login
+screen fails, switch to another TTY (Ctrl+Alt+F2) and run
+`sudo nixos-rebuild switch --rollback`.
 
 ## Important notes
 

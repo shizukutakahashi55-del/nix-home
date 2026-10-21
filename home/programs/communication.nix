@@ -3,7 +3,7 @@
 {
   home.packages = with pkgs; [
     discord
-    telegram-desktop
+    #telegram-desktop
     #vesktop
 
     #Installer

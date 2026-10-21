@@ -16,8 +16,9 @@
     ./modules/boot.nix
     ./modules/desktop.nix
     ./modules/development.nix
-    ./modules/glaunchers.nix
+    ./modules/files.nix
     ./modules/greetd.nix
+    ./modules/glaunchers.nix
     ./modules/hyprland.nix
     ./modules/maintenance.nix
     #./modules/mango.nix

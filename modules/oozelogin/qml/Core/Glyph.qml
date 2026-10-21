@@ -1,0 +1,43 @@
+pragma Singleton
+import QtQuick
+
+QtObject {
+  function cp(n) { return String.fromCodePoint(n) }
+
+  readonly property string leaf: cp(0xF032A)
+  readonly property string lock: cp(0xF033E)
+  readonly property string eye: cp(0xF0208)
+  readonly property string eyeOff: cp(0xF0209)
+  readonly property string power: cp(0xF0425)
+  readonly property string restart: cp(0xF0709)
+  readonly property string monitor: cp(0xF0379)
+  readonly property string globe: cp(0xF059F)
+  readonly property string keyboard: cp(0xF030C)
+  readonly property string capsLock: cp(0xF0632)
+  readonly property string cpu: cp(0xF0EE0)
+  readonly property string memory: cp(0xF035B)
+  readonly property string gpu: cp(0xF08AE)
+  readonly property string battery: cp(0xF0079)
+  readonly property string batteryCharging: cp(0xF0084)
+  readonly property string batteryLow: cp(0xF008E)
+  readonly property string sunny: cp(0xF0599)
+  readonly property string cloudy: cp(0xF0590)
+  readonly property string partly: cp(0xF0595)
+  readonly property string rainy: cp(0xF0597)
+  readonly property string pouring: cp(0xF0596)
+  readonly property string snowy: cp(0xF0598)
+  readonly property string storm: cp(0xF0593)
+  readonly property string fog: cp(0xF0591)
+  readonly property string account: cp(0xF0004)
+  readonly property string chevron: cp(0xF0142)
+  readonly property string cog: cp(0xF0493)
+  readonly property string image: cp(0xF02E9)
+  readonly property string palette: cp(0xF03D8)
+  readonly property string sync: cp(0xF04E6)
+  readonly property string check: cp(0xF012C)
+  readonly property string plus: cp(0xF0415)
+  readonly property string dashboard: cp(0xF056E)
+  readonly property string play: cp(0xF040A)
+  readonly property string translate: cp(0xF05CA)
+  readonly property string users: cp(0xF0849)
+}

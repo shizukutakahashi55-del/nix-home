@@ -26,7 +26,7 @@
     nixd
     nixfmt-rfc-style
     nix-search-cli
-    lazygit
+    #lazygit
     
     # Runtimes
     ruff
@@ -41,7 +41,7 @@
 
     # Python
     python3Packages.pip
-    python314Packages.pandas
+    #python314Packages.pandas
     
     # Rust
     rustc
