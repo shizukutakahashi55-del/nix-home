@@ -14,7 +14,7 @@
     libreoffice
 
     # Desktop utilities
-    wlsunset
+    #wlsunset  #Uncomment if you use niri or mango.
     libnotify
     networkmanagerapplet
     

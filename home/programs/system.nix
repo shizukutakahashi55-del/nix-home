@@ -10,6 +10,8 @@
 
     # General system/data utilities
     jq
+    # poppler-utils
+    # squashfsTools
 
     # Screen Recording
     wf-recorder

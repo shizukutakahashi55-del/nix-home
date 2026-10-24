@@ -21,7 +21,7 @@
     # CLI tools
     btop
     #bottom
-    eza
+    #eza
     fastfetch
     fd
     ripgrep

@@ -25,7 +25,4 @@
     kdePackages.kio-extras       # protocolos adicionales (sftp, smb, etc.)
   ];
 
-  # Servicios clave para funcionalidad (papelera, montaje, redes)
-  services.gvfs.enable = true;
-
 }

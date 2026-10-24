@@ -5,8 +5,8 @@
     # Browsers
     brave 
     #librewolf
-    #firefox
-    #vivaldi
+    #firefox-esr
+    # vivaldi
 
     # Browsers Theming
     #pywalfox-native

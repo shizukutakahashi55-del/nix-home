@@ -21,6 +21,8 @@
 
   # Mount disks
   services.udisks2.enable = true;
+  # Servicios clave para funcionalidad (papelera, montaje, redes)
+  services.gvfs.enable = true;
   # ─────────────────────────────────────────────
   # Printing & Fonts
   # ─────────────────────────────────────────────

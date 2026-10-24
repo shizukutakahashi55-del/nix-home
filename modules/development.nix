@@ -22,7 +22,7 @@
    environment.systemPackages = with pkgs; [
     # Git / Nix
     git
-    gh
+    #gh
     nixd
     nixfmt-rfc-style
     nix-search-cli
@@ -66,7 +66,7 @@
     vim
     curl
     wget
-    tree
+    #tree
 
      ##Wayland
     #  wayland-protocols

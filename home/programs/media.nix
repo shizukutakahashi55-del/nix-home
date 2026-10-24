@@ -6,7 +6,7 @@
     mpv
     vlc
     ffmpeg
-    #parabolic
+    #parabolic #YT VideoDownloader
     
 
     # Images

@@ -42,9 +42,6 @@ at least:
 -   `flake.nix` and `configuration.nix`
 -   GPU and filesystem-related modules
 
-Do not reuse the repository's `hardware-configuration.nix` on another
-machine.
-
 ## Installation
 
 ### 1. Clone the repository
@@ -56,8 +53,8 @@ cd ~/nix-home
 
 ### 2. Generate your hardware configuration
 
-From the cloned repository, replace the included hardware configuration
-with the one for your current installation:
+Do not reuse the repository's `hardware-configuration.nix` on another
+machine. Replace it with the one for your current installation:
 
 ``` bash
 sudo nixos-generate-config --show-hardware-config > hardware-configuration.nix
@@ -65,77 +62,55 @@ sudo nixos-generate-config --show-hardware-config > hardware-configuration.nix
 
 Check the generated file before continuing.
 
-### 3. Find and change the username
+### 3. Change the username
 
-First, find the username you are currently logged in as:
+Find your current username:
 
-```bash
+``` bash
 whoami
 ```
 
-To see your home directory:
+Replace the example username `oozenix` with your own wherever it is
+hard-coded (mainly `modules/users.nix` and `home/default.nix`). Find all
+occurrences from the repository root with:
 
-```bash
-printf '%s\\n' "$HOME"
-```
-
-You can also list regular user accounts configured on the system:
-
-```bash
-getent passwd | awk -F: '$3 >= 1000 && $3 < 60000 {print $1, $6}'
-```
-
-Before rebuilding, replace the example username `oozenix` with your own
-username wherever it is hard-coded. Check these files first:
-
-- `modules/users.nix`
-- `home/default.nix`
-- Any other module that contains `oozenix` or `/home/oozenix`
-
-Find occurrences from the repository root with:
-
-```bash
+``` bash
 grep -RIn --exclude-dir=.git 'oozenix' .
 ```
 
-Edit each relevant occurrence and use your actual username and home
-directory. Do not blindly replace every match: check whether each occurrence
-is a username, a path, or an unrelated string.
+Do not blindly replace every match: check whether each occurrence is a
+username, a path (`/home/oozenix`), or an unrelated string.
 
 ### 4. Adapt the rest of the configuration
 
 Update the hostname, timezone, locale, GPU, and any filesystem-specific
 settings to match your machine.
 
-The flake currently defines the host as `nixos`, so the rebuild commands
-below use `.#nixos`. If you rename the host in `flake.nix`, update the
-commands accordingly.
+The flake defines the host as `nixos`, so the commands in this README use
+`.#nixos`. If you rename the host in `flake.nix`, update the commands
+accordingly.
 
 For an AMD system, review the GPU imports in `configuration.nix` and the
-OBS module before building. Do not enable both GPU configurations
-blindly.
+OBS module before building. Do not enable both GPU configurations.
 
 ### 5. Add new files to Git
 
-Flakes use files tracked by Git. Check what will be included before
-staging:
+Flakes only see files tracked by Git, so any file you create or rename
+must be staged before rebuilding. Check what changed first:
 
 ``` bash
 git status --short
 ```
 
-Stage the files you intend to include, for example:
+Then stage what you intend to include:
 
 ``` bash
 git add hardware-configuration.nix configuration.nix flake.nix modules home
 ```
 
-If you intentionally want to stage every change, use `git add -A` after
-reviewing `git status`.
-
 ### 6. Build and apply
 
-First, check whether the configuration can build:
+Check that the configuration builds:
 
 ``` bash
 sudo nixos-rebuild dry-build --flake .#nixos
@@ -147,14 +122,44 @@ Then activate it:
 sudo nixos-rebuild switch --flake .#nixos
 ```
 
-Reboot if required by the changes:
+Reboot if required. Home Manager is integrated into the NixOS
+configuration, so you do not need to run `home-manager switch`
+separately.
+
+## Updating
+
+To get the latest changes from this repository without losing your own
+edits (username, hardware configuration, etc.):
 
 ``` bash
-reboot
+cd ~/nix-home
+git stash            # save your local changes
+git pull             # download the latest version
+git stash pop        # re-apply your changes
 ```
 
-Home Manager is integrated into the NixOS configuration, so you do not
-need to run `home-manager switch` separately.
+If `git stash pop` reports conflicts, open the marked files, keep the
+values that apply to your machine, and then run `git add` on them.
+
+Then review and apply:
+
+``` bash
+git diff HEAD@{1} -- flake.lock     # optional: see which inputs changed
+sudo nixos-rebuild dry-build --flake .#nixos
+sudo nixos-rebuild switch --flake .#nixos
+```
+
+Notes:
+
+-   If the update added new files that mention `oozenix`, repeat the
+    `grep` from [step 3](#3-change-the-username).
+-   If you downloaded the repository as a ZIP instead of cloning it,
+    `git pull` is not available. Download the new ZIP, copy your edited
+    files (`hardware-configuration.nix`, `modules/users.nix`,
+    `home/default.nix`, etc.) over it, or switch to `git clone` to make
+    future updates easier.
+-   If something breaks, go back to the previous generation with
+    `sudo nixos-rebuild switch --rollback`.
 
 ## Common commands
 
@@ -162,30 +167,31 @@ Run these from the repository directory.
 
 | Command | Purpose |
 |---|---|
-| `nix flake update` | Update flake inputs and rewrite `flake.lock`. Review changes before applying them. |
+| `nix flake update` | Update flake inputs and rewrite `flake.lock`. Only run it if you intend to update dependencies, and review the changes first. |
 | `sudo nixos-rebuild dry-build --flake .#nixos` | Check whether the configuration builds without activating it. |
 | `sudo nixos-rebuild build --flake .#nixos` | Build the system configuration without activating it. |
 | `sudo nixos-rebuild test --flake .#nixos` | Activate the configuration temporarily; it will not become the boot default. |
 | `sudo nixos-rebuild switch --flake .#nixos` | Build and activate the configuration and make it the current system generation. |
+| `sudo nixos-rebuild boot --flake .#nixos` | Build and set it as the next boot default without activating it now. |
 | `sudo nixos-rebuild switch --rollback` | Switch to the previous system generation. |
 | `git status --short` | Show modified and untracked files. |
 | `git diff` | Review unstaged changes. |
 
-If you add or rename files imported by the flake, make sure they are
-tracked by Git before rebuilding. Avoid running `nix flake update`
-unless you intend to update dependencies.
-
-**Tip:** Changes to the compositor or display manager can end your
-graphical session. Apply those changes from a TTY, or build with
-`sudo nixos-rebuild boot --flake .#nixos` and reboot.
+**Tip:** Changes to the compositor, display manager, or login screen can
+end your graphical session. Apply them from a TTY, or use
+`sudo nixos-rebuild boot --flake .#nixos` and reboot. If the login screen
+fails, switch to another TTY (Ctrl+Alt+F2) and run
+`sudo nixos-rebuild switch --rollback`.
 
 ## Graphical installer
 
 The `installer/` directory contains a QuickShell GUI for managing
-supported `.nix` files in this repository.
+supported `.nix` files in this repository. It includes package
+search/editing, a change review, a Nix file editor, and controls to
+validate, test, and apply changes. Review each change before applying it.
 
-If QuickShell and `nix-search-cli` are not already available in your
-environment, you can launch the installer with:
+If QuickShell and `nix-search-cli` are not already available, launch it
+with:
 
 ``` bash
 nix shell -p quickshell nix-search-cli -c ./installer/run.sh
@@ -209,14 +215,26 @@ To force it to close even if a command is running:
 ./installer/toggle.sh --force
 ```
 
-The installer includes package search/editing, a change review, a Nix
-file editor, and controls to validate, test, and apply changes. Review
-each change before applying it. The installer does not replace the need
-to understand the configuration you're modifying.
-
 The Rust backend is built outside the repository by default, under
 `~/.cache/nix-home-installer/target`. You can override the build
 location with `CARGO_TARGET_DIR`.
+
+## OozeLogin (login screen)
+
+`modules/greetd.nix` enables OozeLogin, a QuickShell greeter for greetd
+with its own settings window. It replaces tuigreet. Details in
+`modules/oozelogin/README.md`.
+
+| Command | Purpose |
+|---|---|
+| `oozelogin-settings` | Settings window (appearance, panels, access, weather, OozeShell) |
+| `oozelogin-preview` | Run the greeter in a window to test it (test password: `ooze`) |
+| `oozelogin-sync` | Copy OozeShell colors, wallpaper and avatar to the greeter |
+
+`sync.enable = true` runs the sync automatically whenever the matugen
+palette, the awww wallpaper or the OozeShell profile change. Your user
+must be in the `users` group to edit the greeter settings. Test with
+`oozelogin-preview` before applying.
 
 ## Repository layout
 
@@ -226,32 +244,10 @@ location with `CARGO_TARGET_DIR`.
 ├── flake.lock
 ├── configuration.nix
 ├── hardware-configuration.nix
-├── modules/       # System modules, drivers, services, and system-level programs
+├── modules/       # System modules, drivers, services, and OozeLogin
 ├── home/          # Home Manager configuration and user applications
-├── modules/oozelogin/  # OozeLogin: QuickShell greeter for greetd
 └── installer/     # QuickShell interface and Rust backend
 ```
-
-## OozeLogin (login screen)
-
-`modules/greetd.nix` enables OozeLogin, a QuickShell greeter for greetd with
-its own settings window. It replaces tuigreet.
-
-| Command | Purpose |
-|---|---|
-| `oozelogin-settings` | Settings window (appearance, panels, access, weather, OozeShell) |
-| `oozelogin-preview` | Run the greeter in a window to test it (test password: `ooze`) |
-| `oozelogin-sync` | Copy OozeShell colors, wallpaper and avatar to the greeter |
-
-`sync.enable = true` runs the sync automatically whenever the matugen
-palette, the awww wallpaper or the OozeShell profile change. Your user must
-be in the `users` group to edit the greeter settings. Details in
-`modules/oozelogin/README.md`.
-
-**Tip:** test with `oozelogin-preview` first, and apply with
-`sudo nixos-rebuild boot --flake .#nixos` followed by a reboot. If the login
-screen fails, switch to another TTY (Ctrl+Alt+F2) and run
-`sudo nixos-rebuild switch --rollback`.
 
 ## Important notes
 
@@ -265,11 +261,6 @@ screen fails, switch to another TTY (Ctrl+Alt+F2) and run
     power actions can be performed without a password.
 -   **Maintenance:** Review `modules/maintenance.nix` and make sure its
     Btrfs maintenance settings match your filesystem.
--   **External inputs:** `nix flake update` can introduce upstream
-    changes. Review the diff and keep `flake.lock` committed when the
-    configuration is in a known-good state.
--   **New files:** Add newly created files to Git before rebuilding so
-    the flake can include them.
-
-Review the configuration and its security implications before using it
-on a machine you care about.
+-   **flake.lock:** Keep it committed when the configuration is in a
+    known-good state, since `nix flake update` can introduce upstream
+    changes.
